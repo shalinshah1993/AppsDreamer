@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneApp2", "PhoneApp2\PhoneApp2.csproj", "{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLibraryBase", "..\..\..\Microsoft Research\Project Hawaii SDK 2.1\Microsoft Research\Project Hawaii SDK 2.1\Source\Common\ClientLibraryBase\ClientLibraryBase.csproj", "{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextClient", "..\..\..\Microsoft Research\Project Hawaii SDK 2.1\Microsoft Research\Project Hawaii SDK 2.1\Source\ServiceClients\SpeechToText\SpeechToTextClient.csproj", "{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_Fast|Any CPU = Debug_Fast|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Debug_Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Debug_Fast|Any CPU.Build.0 = Debug|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Debug_Fast|Any CPU.Deploy.0 = Debug|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1517DB-109C-45F0-B21E-0A9115DDCCEB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}.Debug_Fast|Any CPU.ActiveCfg = Debug_Fast|Any CPU
+		{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}.Debug_Fast|Any CPU.Build.0 = Debug_Fast|Any CPU
+		{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC93C88D-4A95-48CD-BA6E-146A03AFEA53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}.Debug_Fast|Any CPU.ActiveCfg = Debug_Fast|Any CPU
+		{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}.Debug_Fast|Any CPU.Build.0 = Debug_Fast|Any CPU
+		{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{640E41EF-7F79-4388-93B2-7A2DCBDE4BD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
