@@ -1,0 +1,13 @@
+<local:MainViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:OurWindowsApp" 
+    >
+    <local:MainViewModel.Items>
+        <local:ItemViewModel LineOne="Airport" LineTwo="Gets your Distance from airport" />
+        <local:ItemViewModel LineOne="Railways" LineTwo="Gets your distance from railways"/>
+        <local:ItemViewModel LineOne="Restaurents" LineTwo="Shows nearby Restaurents" />
+        <local:ItemViewModel LineOne="Wiki Info" LineTwo="Gives you info of city"/>
+
+    </local:MainViewModel.Items>
+</local:MainViewModel>

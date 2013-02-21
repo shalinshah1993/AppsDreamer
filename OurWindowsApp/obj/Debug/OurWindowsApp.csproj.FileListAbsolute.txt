@@ -1,0 +1,16 @@
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\ApplicationIcon.png
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\Background.png
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\OurWindowsApp.dll
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\OurWindowsApp.pdb
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\AppManifest.xaml
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\OurWindowsApp.xap
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\Microsoft.Phone.Controls.dll
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\Bin\Debug\Microsoft.Phone.Controls.xml
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\App.g.i.cs
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\MainPage.g.i.cs
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\OurWindowsApp.g.resources
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\OurWindowsApp.dll
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\OurWindowsApp.pdb
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\XapCacheFile.xml
+C:\Users\SHALIN\Desktop\Win phone7\OurWindowsApp\OurWindowsApp\obj\Debug\Page1.g.i.cs
