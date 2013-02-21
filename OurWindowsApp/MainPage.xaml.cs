@@ -47,6 +47,7 @@ namespace OurWindowsApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //Suggest wheteher new page should be created or simply a message box should be displayed.
             //NavigationService.Navigate(new Uri("/Page1.xaml",UriKind.RelativeOrAbsolute));
             MessageBox.Show("Distance of the airport is :");
         }
