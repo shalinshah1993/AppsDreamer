@@ -1,4 +1,4 @@
-﻿<phone:PhoneApplicationPage 
+<phone:PhoneApplicationPage 
 x:Class="OurWindowsApp.MainPage"
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -19,59 +19,71 @@ shell:SystemTray.IsVisible="False">
 <Grid x:Name="LayoutRoot" Background="Transparent">
  
     <!--Panorama control-->
-    <controls:Panorama Title="My Application">
+    <controls:Panorama Title="My Application" Name="panorama">
         <controls:Panorama.Background>
             <ImageBrush ImageSource="image1.png"/>
         </controls:Panorama.Background>
  
-        <!--Panorama item one-->
-            <controls:PanoramaItem Header="Features">
-                <ScrollViewer >
-                <StackPanel VerticalAlignment="Top" Height="600" Width="400" Orientation="Vertical">
-                   
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/airplane.png" />
-                            <Button Content="Airport" Visibility="Visible" Width="276" Height="89" Click="Button_Click"></Button>
-                        
-                        </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-
-                        <Image Height="100" Width="100" Margin="0,0,0,0" Source="railway.png" />
-                        <Button Content="Railways" Visibility="Visible" Width="276" Height="89"></Button>
-                    </StackPanel>
-<StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-                            <Image Source="clouds.png" Height="100" Margin="0,0,0,0" Width="100" />
-                            <Button Content="Weather" Visibility="Visible" Width="276" Height="89"></Button>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-
-                        <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/wiki.png" />
-                        <Button Content="City Information" Visibility="Visible" Width="276" Height="89"></Button>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-
-                        <Image Height="100" Width="100" Margin="0,0,0,0" Source="speak.png" />
-                        <Button Content="Speak Up" Visibility="Visible" Width="276" Height="89"></Button>
-                    </StackPanel>
-                </StackPanel>
-                </ScrollViewer>
-                <!--Double line list with image placeholder and text wrapping-->
-            </controls:PanoramaItem>
-            <!--Panorama item two-->
+        <!--Panorama item one default Search Item-->
         <!--Use 'Orientation="Horizontal"' to enable a panel that lays out horizontally-->
         <controls:PanoramaItem Header="Search">
             <!--Double line list with image placeholder and text wrapping-->
                 <StackPanel Orientation="Vertical">
-                <TextBox Height="80" HorizontalAlignment="Left" Margin="0,8,0,0" Name="textBox1" Text="Search" VerticalAlignment="Top" Width="450" IsReadOnly="False" IsHitTestVisible="True" GotFocus="textBox1_GotFocus" LostFocus="textBox1_LostFocus"/>
-                <Button  Height="70" Margin="0,0,0,0" Name="button" Width="250" Content="Click to Search"/>        
+                    <TextBox Foreground="DarkSlateGray" Height="80" HorizontalAlignment="Left" Margin="0,8,0,0" Name="textBox1" Text="Search" VerticalAlignment="Top" Width="450" IsReadOnly="False" IsHitTestVisible="True" GotFocus="textBox1_GotFocus" LostFocus="textBox1_LostFocus"/>
+                    <Button  Foreground="WhiteSmoke" Height="70" Margin="0,0,0,0" Name="button" Width="250" Content="Click to Search" Click="button_Click_1" />        
                 </StackPanel>
             
             </controls:PanoramaItem>
-    </controls:Panorama>
-        
-    </Grid>
- 
-<!--Panorama-based applications should not show an ApplicationBar-->
+        <!--Item 2 features list for panorama-->
+            <controls:PanoramaItem Header="Features">
+                <ScrollViewer >
+                    <StackPanel VerticalAlignment="Top" Height="600" Width="400" Orientation="Vertical">
 
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/airplane.png" />
+                            <Button Foreground="WhiteSmoke" Content="Airport" Visibility="Visible" Width="276" Height="89" Click="Button_Click"></Button>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+
+                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="railway.png" />
+                            <Button Foreground="WhiteSmoke" Content="Railways" Visibility="Visible" Width="276" Height="89" Click="Button_Click_2"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                            <Image Source="clouds.png" Height="100" Margin="0,0,0,0" Width="100" />
+                            <Button Foreground="WhiteSmoke" Content="Weather" Visibility="Visible" Width="276" Height="89" Click="Button_Click_3"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+
+                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/wiki.png" />
+                            <Button Foreground="WhiteSmoke" Content="City Information" Visibility="Visible" Width="276" Height="89" Click="Button_Click_4"></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+
+                            <Image  Height="100" Width="100" Margin="0,0,0,0" Source="speak.png" />
+                            <Button Foreground="WhiteSmoke" Content="Speak Up" Visibility="Visible" Width="276" Height="89"></Button>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:PanoramaItem>
+            <!--The third item in paronoma which is wikipedia information of city-->
+            <controls:PanoramaItem Header="Wiki Info">
+                <TextBlock Foreground="WhiteSmoke" Name="Wiki" Text="The content to be loaded from wikipedia" Margin="0,0,0,0"></TextBlock>
+            </controls:PanoramaItem>
+        <!--The Fourth item in paronoma which is weather information of city-->
+        <controls:PanoramaItem Header="Weather">
+                <TextBlock Foreground="WhiteSmoke" Name="Weather" Text="The content to be loaded from weather page according to current location" Margin="0,0,0,0"></TextBlock>
+        </controls:PanoramaItem>
+<!--The fifth item in paronoma which is airport information of city-->
+        <controls:PanoramaItem Header="Airport">
+                <TextBlock Foreground="WhiteSmoke" Name="Airport" Text="The content to be loaded from maps to gets names of airport and there distances from current location" Margin="0,0,0,0"></TextBlock>
+        </controls:PanoramaItem>
+<!--The Sixth item in paronoma which is weather information of city-->
+        <controls:PanoramaItem Header="Railways">
+            <TextBlock Foreground="WhiteSmoke" Name="Railways" Text="The content to be loaded from maps page to get names of railway stations and there distances from here" Margin="0,0,0,0"></TextBlock>
+        </controls:PanoramaItem>
+        </controls:Panorama>
+</Grid>
+ 
 </phone:PhoneApplicationPage>
