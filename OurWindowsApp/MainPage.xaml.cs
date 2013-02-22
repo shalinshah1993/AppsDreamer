@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -23,6 +23,7 @@ namespace OurWindowsApp
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+            panorama.DefaultItem = panorama.Items[0];
         }
 
         // Load data for the ViewModel Items
@@ -45,15 +46,34 @@ namespace OurWindowsApp
                 textBox1.Text = "Search";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void button_Click_1(object sender, RoutedEventArgs e)
         {
-            //Suggest wheteher new page should be created or simply a message box should be displayed.
-            //NavigationService.Navigate(new Uri("/Page1.xaml",UriKind.RelativeOrAbsolute));
-            MessageBox.Show("Distance of the airport is :");
+            //Search button is clicked
         }
 
-       
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //Airport button is clicked
+            panorama.SlideToPage(4);
+        }
 
-        
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            //Railways button clicked
+            panorama.SlideToPage(5);
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            //Weather button is clicked
+            panorama.SlideToPage(3);
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            //Wikipedia info button is clicked
+            panorama.SlideToPage(2);
+        }     
+
     }
 }
