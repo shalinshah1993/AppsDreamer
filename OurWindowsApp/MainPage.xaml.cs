@@ -10,11 +10,20 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
+using System.Windows.Threading;
 
 namespace OurWindowsApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        static string key = "cV2XJcXlIrGraTLDFdmL1jEWokLxziqchlyr+TR7biM=";
+        static string rootUri = "https://api.datamarket.azure.com/Bing/Search";
+        string query = "";
+        string text;
+        DispatcherTimer timer;
         // Constructor
         public MainPage()
         {
@@ -49,6 +58,11 @@ namespace OurWindowsApp
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
             //Search button is clicked
+            post(new Uri(rootUri + "/Web?Query='" + textBox1.Text + "'"));
+            ProgressBar.Visibility = Visibility.Visible;
+            textBlock1.Text = "Searching...";
+            //timer = new DispatcherTimer();
+            //    ProgressBar.Visibility = Visibility.Collapsed;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -73,7 +87,55 @@ namespace OurWindowsApp
         {
             //Wikipedia info button is clicked
             panorama.SlideToPage(2);
-        }     
+        }
 
+        private void gen_query(object sender, TextChangedEventArgs e)
+        {
+            query = textBox1.Text;
+            
+        }
+        int post(Uri u)
+        {
+            HttpWebRequest queryRequest = (HttpWebRequest)WebRequest.Create(u);
+            queryRequest.Method = "POST";
+            queryRequest.Credentials = new NetworkCredential(key, key);
+            queryUpdateState qState = new queryUpdateState();
+            qState.AsyncRequest = queryRequest;
+            queryRequest.BeginGetResponse(new AsyncCallback(HandleResponse), qState);
+            return 1;
+        }
+        void HandleResponse(IAsyncResult result)
+        {
+            // get the state information
+            queryUpdateState qState = (queryUpdateState)result.AsyncState;
+            HttpWebRequest qRequest = (HttpWebRequest)qState.AsyncRequest;
+
+            qState.AsyncResponse = (HttpWebResponse)qRequest.EndGetResponse(result);
+
+            Stream streamResult;
+            try
+            {
+                streamResult = qState.AsyncResponse.GetResponseStream();
+                // load the XML
+                XDocument xmlquery = XDocument.Load(streamResult);
+                text = xmlquery.ToString();
+                int index = text.IndexOf("<d:Description m:type=");
+                text = text.Substring(index + 35, 500);
+                index = text.IndexOf("</d:Description>");
+                text = text.Substring(0, index);
+                this.Dispatcher.BeginInvoke(new Action(() => this.textBlock1.Text = text));
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+        }
+       
+        
+    }
+    public class queryUpdateState
+    {
+        public HttpWebRequest AsyncRequest { get; set; }
+        public HttpWebResponse AsyncResponse { get; set; }
     }
 }
