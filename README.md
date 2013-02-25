@@ -1,8 +1,3 @@
-Updates :- 
-
-The layout has been designed and added to directry please have a look at it suggest me the necessary changes required and now clone this repo and make necessary changes in this repo and then send the pull request.
-
-
 AppsDreamer
 ===========
 
