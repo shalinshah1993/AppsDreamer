@@ -124,6 +124,8 @@ namespace OurWindowsApp
                 index = text.IndexOf("</d:Description>");
                 text = text.Substring(0, index);
                 this.Dispatcher.BeginInvoke(new Action(() => this.textBlock1.Text = text));
+                this.Dispatcher.BeginInvoke(new Action(() =>this.ProgressBar.Visibility = Visibility.Collapsed));
+
             }
             catch (FormatException)
             {
