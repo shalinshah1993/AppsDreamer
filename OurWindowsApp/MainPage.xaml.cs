@@ -19,11 +19,8 @@ namespace OurWindowsApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        static string key = "cV2XJcXlIrGraTLDFdmL1jEWokLxziqchlyr+TR7biM=";
-        static string rootUri = "https://api.datamarket.azure.com/Bing/Search";
+        static string rootUri = "http://en.wikipedia.org/w/api.php";
         string query = "";
-        string text;
-        DispatcherTimer timer;
         // Constructor
         public MainPage()
         {
@@ -58,11 +55,9 @@ namespace OurWindowsApp
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
             //Search button is clicked
-            post(new Uri(rootUri + "/Web?Query='" + textBox1.Text + "'"));
+            post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + textBox1.Text));
             ProgressBar.Visibility = Visibility.Visible;
             textBlock1.Text = "Searching...";
-            //timer = new DispatcherTimer();
-            //    ProgressBar.Visibility = Visibility.Collapsed;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -94,15 +89,15 @@ namespace OurWindowsApp
             query = textBox1.Text;
             
         }
-        int post(Uri u)
+        void post(Uri u)
         {
             HttpWebRequest queryRequest = (HttpWebRequest)WebRequest.Create(u);
             queryRequest.Method = "POST";
-            queryRequest.Credentials = new NetworkCredential(key, key);
+            //queryRequest.Credentials = new NetworkCredential(key, key);
             queryUpdateState qState = new queryUpdateState();
             qState.AsyncRequest = queryRequest;
             queryRequest.BeginGetResponse(new AsyncCallback(HandleResponse), qState);
-            return 1;
+          //  return 1;
         }
         void HandleResponse(IAsyncResult result)
         {
@@ -118,12 +113,17 @@ namespace OurWindowsApp
                 streamResult = qState.AsyncResponse.GetResponseStream();
                 // load the XML
                 XDocument xmlquery = XDocument.Load(streamResult);
-                text = xmlquery.ToString();
-                int index = text.IndexOf("<d:Description m:type=");
-                text = text.Substring(index + 35, 500);
-                index = text.IndexOf("</d:Description>");
-                text = text.Substring(0, index);
-                this.Dispatcher.BeginInvoke(new Action(() => this.textBlock1.Text = text));
+                string x = xmlquery.ToString();
+                if (x.IndexOf("<Description xml:space=\"preserve\">") != -1)
+                {
+                    x = x.Substring(x.IndexOf("<Description xml:space=\"preserve\">") + 34);
+                    x = x.Substring(0, x.IndexOf("</Description>"));
+
+                    this.Dispatcher.BeginInvoke(new Action(() => textBlock1.Text = x));
+                }
+                else {
+                    this.Dispatcher.BeginInvoke(new Action(() => MessageBox.Show("Oy")));
+                }
                 this.Dispatcher.BeginInvoke(new Action(() =>this.ProgressBar.Visibility = Visibility.Collapsed));
 
             }
