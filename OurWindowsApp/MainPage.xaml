@@ -33,7 +33,7 @@ shell:SystemTray.IsVisible="False">
                     <TextBox Foreground="DarkSlateGray" Height="80" HorizontalAlignment="Left" Margin="0,8,0,0" Name="textBox1" Text="Search" VerticalAlignment="Top" Width="450" IsReadOnly="False" IsHitTestVisible="True" GotFocus="textBox1_GotFocus" LostFocus="textBox1_LostFocus" TextChanged="gen_query" />
                     <Button  Foreground="WhiteSmoke" Height="70" Margin="0,0,0,0" Name="button" Width="250" Content="Click to Search" Click="button_Click_1" />
                     <ProgressBar IsIndeterminate="True" Style="{StaticResource PerformanceProgressBar}" Foreground="White" Visibility="Collapsed" Name="ProgressBar"/>
-                    <TextBlock Height="330" Name="textBlock1" Text="TextBlock" TextWrapping="Wrap" />
+                    <TextBlock Height="230" Name="textBlock1" Text="" TextWrapping="Wrap" />
                 </StackPanel>
             
             </controls:PanoramaItem>
@@ -80,12 +80,17 @@ shell:SystemTray.IsVisible="False">
         </controls:PanoramaItem>
 <!--The fifth item in paronoma which is airport information of city-->
         <controls:PanoramaItem Header="Airport">
-                <TextBlock Foreground="WhiteSmoke" Name="Airport" Text="The content to be loaded from maps to gets names of airport and there distances from current location" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+                <!--<TextBlock Foreground="WhiteSmoke" Name="Airport" Padding="30" Text="The content to be loaded from maps to gets names of airport and there distances from current location" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>-->
+                <ListBox Height="488" HorizontalAlignment="Left" Margin="0,0,0,0" Name="listAirport" VerticalAlignment="Top" Width="460" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
         </controls:PanoramaItem>
 <!--The Sixth item in paronoma which is weather information of city-->
             <controls:PanoramaItem Header="Railways">
                 <TextBlock Foreground="WhiteSmoke" Name="Railways" Text="The content to be loaded from maps page to get names of railway stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
             </controls:PanoramaItem>
+            <controls:PanoramaItem Header="Bus Station">
+                <TextBlock Foreground="WhiteSmoke" Name="Bus" Text="The content to be loaded from maps page to get names of bus stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+            </controls:PanoramaItem>
+
             <!--The seventh item it is ABOUTUS-->
         <controls:PanoramaItem Header="About Us">
             <TextBlock Foreground="WhiteSmoke" Name="About" Text="This application(Version 1.0) is designed to act as a buddy when you move to a new city.It provides you with all the details required when you move to a new city.
@@ -94,6 +99,6 @@ shell:SystemTray.IsVisible="False">
  The developers of the application are:-" Margin="0,0,0,0" Padding="40" TextWrapping="Wrap"></TextBlock>
         </controls:PanoramaItem>
         </controls:Panorama>
-    </Grid>
+       </Grid>
  
 </phone:PhoneApplicationPage>
