@@ -1,4 +1,5 @@
 using System;
+using System.Device.Location;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -6,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
 using Microsoft.Phone.Controls;
-using System.Device.Location;
 
 namespace OurWindowsApp
 {
@@ -14,14 +14,16 @@ namespace OurWindowsApp
     {
         private static string rootUri = "http://en.wikipedia.org/w/api.php";
         private static string rootUri1 = "https://maps.googleapis.com/maps/api/place/search/xml?key=AIzaSyCm5alHOA4sBeOz6J_Q60dvKyy1j2SwYbc";
+        private static string wikiuri = "http://en.wikipedia.org/w/api.php?format=xml&action=query&prop=revisions&rvprop=content&titles=";
         private string query = "";
-        GeoCoordinateWatcher watcher;
-        string accuracyText = "";
+        private GeoCoordinateWatcher watcher;
+
+        //string accuracyText = "";
         private string[] features = { "airport", "train_station", "bus_station", "gas_station", "hospital" };
 
         //    private string sexy1;
         //    private string sexy;
-        private string clat = "23.194176";//Defailt if unable to get location using watcher
+        private string clat = "23.194176";
 
         private string clng = "72.628384";//23.194176,72.628384
 
@@ -63,6 +65,7 @@ namespace OurWindowsApp
             if (!(textBox1.Text == "Search"))
             {
                 post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + textBox1.Text));
+                wikipost(new Uri(wikiuri + textBox1.Text));
                 post1(new Uri(rootUri1 + "&location=" + clat + "," + clng + "&radius=75000&sensor=false&types=" + features[0]));
                 post1(new Uri(rootUri1 + "&location=" + clat + "," + clng + "&radius=75000&sensor=false&types=" + features[1]));
                 post1(new Uri(rootUri1 + "&location=" + clat + "," + clng + "&radius=75000&sensor=false&types=" + features[2]));
@@ -206,6 +209,52 @@ namespace OurWindowsApp
             }
         }
 
+        private void wikipost(Uri u)
+        {
+            HttpWebRequest queryRequest = (HttpWebRequest)WebRequest.Create(u);
+            queryRequest.Method = "POST";
+            queryUpdateState qState = new queryUpdateState();
+            qState.AsyncRequest = queryRequest;
+            queryRequest.BeginGetResponse(new AsyncCallback(wikiHandleResponse), qState);
+        }
+
+        private void wikiHandleResponse(IAsyncResult result)
+        {
+            queryUpdateState qState = (queryUpdateState)result.AsyncState;
+            HttpWebRequest qRequest = (HttpWebRequest)qState.AsyncRequest;
+
+            qState.AsyncResponse = (HttpWebResponse)qRequest.EndGetResponse(result);
+
+            Stream streamResult;
+            try
+            {
+                streamResult = qState.AsyncResponse.GetResponseStream();
+
+                // load the XML
+                XDocument xmlquery = XDocument.Load(streamResult);
+                //Wikipedia Data Need to be parsed
+                string a = xmlquery.Descendants("query").Descendants("pages").Descendants("page").Descendants("revisions").Descendants("rev").First().Value;
+                
+                //string x = xmlquery.ToString();
+                /* if (x.IndexOf("<Description xml:space=\"preserve\">") != -1)
+                 {
+                     x = x.Substring(x.IndexOf("<Description xml:space=\"preserve\">") + 34);
+                     x = x.Substring(0, x.IndexOf("</Description>"));
+
+                     this.Dispatcher.BeginInvoke(new Action(() => textBlock1.Text = x));
+                 }
+                 else
+                 {
+                     this.Dispatcher.BeginInvoke(new Action(() => MessageBox.Show("Oy")));
+                 }
+                 this.Dispatcher.BeginInvoke(new Action(() => this.ProgressBar.Visibility = Visibility.Collapsed));*/
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+        }
+
         private double Radians(double p)
         {
             return p * Math.PI / 180;
@@ -216,6 +265,7 @@ namespace OurWindowsApp
             //Bus Stop Button is clicked
             panorama.SlideToPage(6);
         }
+
         /// <summary>
         /// Helper method to start up the location data acquisition
         /// </summary>
@@ -233,46 +283,53 @@ namespace OurWindowsApp
             // Start data acquisition
             watcher.Start();
         }
+
         /// <summary>
         /// Handler for the StatusChanged event. This invokes MyStatusChanged on the UI thread and
         /// passes the GeoPositionStatusChangedEventArgs
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        private void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() => MyStatusChanged(e));
-
         }
+
         /// <summary>
         /// Custom method called from the StatusChanged event handler
         /// </summary>
         /// <param name="e"></param>
-        void MyStatusChanged(GeoPositionStatusChangedEventArgs e)
+        private void MyStatusChanged(GeoPositionStatusChangedEventArgs e)
         {
             switch (e.Status)
             {
                 case GeoPositionStatus.Disabled:
+
                     // The location service is disabled or unsupported.
                     // Alert the user
-            //        StatusTextBlock.Text = "location is unsupported on this device";
-                    break;
-                case GeoPositionStatus.Initializing:
-                    // The location service is initializing.
-                    // Disable the Start Location button
-        //            StatusTextBlock.Text = "initializing location service," + accuracyText;
-                    break;
-                case GeoPositionStatus.NoData:
-                    // The location service is working, but it cannot get location data
-                    // Alert the user and enable the Stop Location button
-          //          StatusTextBlock.Text = "data unavailable," + accuracyText;
-                    break;
-                case GeoPositionStatus.Ready:
-                    // The location service is working and is receiving location data
-                    // Show the current position and enable the Stop Location button
-            //        StatusTextBlock.Text = "receiving data, " + accuracyText;
+                    //        StatusTextBlock.Text = "location is unsupported on this device";
                     break;
 
+                case GeoPositionStatus.Initializing:
+
+                    // The location service is initializing.
+                    // Disable the Start Location button
+                    //            StatusTextBlock.Text = "initializing location service," + accuracyText;
+                    break;
+
+                case GeoPositionStatus.NoData:
+
+                    // The location service is working, but it cannot get location data
+                    // Alert the user and enable the Stop Location button
+                    //          StatusTextBlock.Text = "data unavailable," + accuracyText;
+                    break;
+
+                case GeoPositionStatus.Ready:
+
+                    // The location service is working and is receiving location data
+                    // Show the current position and enable the Stop Location button
+                    //        StatusTextBlock.Text = "receiving data, " + accuracyText;
+                    break;
             }
         }
 
@@ -282,7 +339,7 @@ namespace OurWindowsApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        private void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() => MyPositionChanged(e));
         }
@@ -291,7 +348,7 @@ namespace OurWindowsApp
         /// Custom method called from the PositionChanged event handler
         /// </summary>
         /// <param name="e"></param>
-        void MyPositionChanged(GeoPositionChangedEventArgs<GeoCoordinate> e)
+        private void MyPositionChanged(GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
             // Update the TextBlocks to show the current location
             clat = e.Position.Location.Latitude.ToString("0.000");
