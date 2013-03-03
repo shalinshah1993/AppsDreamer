@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
 using Microsoft.Phone.Controls;
+using System.Device.Location;
 
 namespace OurWindowsApp
 {
@@ -14,10 +15,14 @@ namespace OurWindowsApp
         private static string rootUri = "http://en.wikipedia.org/w/api.php";
         private static string rootUri1 = "https://maps.googleapis.com/maps/api/place/search/xml?key=AIzaSyCm5alHOA4sBeOz6J_Q60dvKyy1j2SwYbc";
         private string query = "";
+        GeoCoordinateWatcher watcher;
+        string accuracyText = "";
         private string[] features = { "airport", "train_station", "bus_station", "gas_station", "hospital" };
-    //    private string sexy1;
-    //    private string sexy;
-        private string clat = "23.194176";
+
+        //    private string sexy1;
+        //    private string sexy;
+        private string clat = "23.194176";//Defailt if unable to get location using watcher
+
         private string clng = "72.628384";//23.194176,72.628384
 
         // Constructor
@@ -36,6 +41,7 @@ namespace OurWindowsApp
         {
             if (!App.ViewModel.IsDataLoaded)
             {
+                StartLocationService(GeoPositionAccuracy.Default);
                 App.ViewModel.LoadData();
             }
         }
@@ -174,10 +180,10 @@ namespace OurWindowsApp
                 string i = "";
                 for (int il = 0; il < a.Length; il++)
                 {
-                    double a1 = (Math.Sin(Radians( double.Parse(clat) - double.Parse(geo_lat[il].Value)) / 2) * Math.Sin(Radians(double.Parse(clat) - double.Parse(geo_lat[il].Value)) / 2)) + Math.Cos(Radians(double.Parse(geo_lat[il].Value))) * Math.Cos(Radians(double.Parse(clat))) * (Math.Sin(Radians(double.Parse(clng) - double.Parse(geo_lng[il].Value)) / 2) * Math.Sin(Radians(double.Parse(clng) - double.Parse(geo_lng[il].Value)) / 2));
+                    double a1 = (Math.Sin(Radians(double.Parse(clat) - double.Parse(geo_lat[il].Value)) / 2) * Math.Sin(Radians(double.Parse(clat) - double.Parse(geo_lat[il].Value)) / 2)) + Math.Cos(Radians(double.Parse(geo_lat[il].Value))) * Math.Cos(Radians(double.Parse(clat))) * (Math.Sin(Radians(double.Parse(clng) - double.Parse(geo_lng[il].Value)) / 2) * Math.Sin(Radians(double.Parse(clng) - double.Parse(geo_lng[il].Value)) / 2));
                     double angle = 2 * Math.Atan2(Math.Sqrt(a1), Math.Sqrt(1 - a1));
                     double Distance = angle * 6378.16;
-                    i += Math.Round(Distance,2)+" KM away,";
+                    i += Math.Round(Distance, 2) + " KM away,";
                     i += a[il].Value + System.Environment.NewLine;
                 }
 
@@ -189,6 +195,10 @@ namespace OurWindowsApp
                     this.Dispatcher.BeginInvoke(new Action(() => Railways.Text = i));
                 else if (s == "bus_station")
                     this.Dispatcher.BeginInvoke(new Action(() => Bus.Text = i));
+                if (watcher != null)
+                {
+                    watcher.Stop();
+                }
             }
             catch (FormatException)
             {
@@ -205,6 +215,87 @@ namespace OurWindowsApp
         {
             //Bus Stop Button is clicked
             panorama.SlideToPage(6);
+        }
+        /// <summary>
+        /// Helper method to start up the location data acquisition
+        /// </summary>
+        /// <param name="accuracy">The accuracy level </param>
+        private void StartLocationService(GeoPositionAccuracy accuracy)
+        {
+            // Reinitialize the GeoCoordinateWatcher
+            watcher = new GeoCoordinateWatcher(accuracy);
+            watcher.MovementThreshold = 20;
+
+            // Add event handlers for StatusChanged and PositionChanged events
+            watcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(watcher_StatusChanged);
+            watcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
+
+            // Start data acquisition
+            watcher.Start();
+        }
+        /// <summary>
+        /// Handler for the StatusChanged event. This invokes MyStatusChanged on the UI thread and
+        /// passes the GeoPositionStatusChangedEventArgs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() => MyStatusChanged(e));
+
+        }
+        /// <summary>
+        /// Custom method called from the StatusChanged event handler
+        /// </summary>
+        /// <param name="e"></param>
+        void MyStatusChanged(GeoPositionStatusChangedEventArgs e)
+        {
+            switch (e.Status)
+            {
+                case GeoPositionStatus.Disabled:
+                    // The location service is disabled or unsupported.
+                    // Alert the user
+            //        StatusTextBlock.Text = "location is unsupported on this device";
+                    break;
+                case GeoPositionStatus.Initializing:
+                    // The location service is initializing.
+                    // Disable the Start Location button
+        //            StatusTextBlock.Text = "initializing location service," + accuracyText;
+                    break;
+                case GeoPositionStatus.NoData:
+                    // The location service is working, but it cannot get location data
+                    // Alert the user and enable the Stop Location button
+          //          StatusTextBlock.Text = "data unavailable," + accuracyText;
+                    break;
+                case GeoPositionStatus.Ready:
+                    // The location service is working and is receiving location data
+                    // Show the current position and enable the Stop Location button
+            //        StatusTextBlock.Text = "receiving data, " + accuracyText;
+                    break;
+
+            }
+        }
+
+        /// <summary>
+        /// Handler for the PositionChanged event. This invokes MyStatusChanged on the UI thread and
+        /// passes the GeoPositionStatusChangedEventArgs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() => MyPositionChanged(e));
+        }
+
+        /// <summary>
+        /// Custom method called from the PositionChanged event handler
+        /// </summary>
+        /// <param name="e"></param>
+        void MyPositionChanged(GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            // Update the TextBlocks to show the current location
+            clat = e.Position.Location.Latitude.ToString("0.000");
+            clng = e.Position.Location.Longitude.ToString("0.000");
         }
 
         /*     void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
