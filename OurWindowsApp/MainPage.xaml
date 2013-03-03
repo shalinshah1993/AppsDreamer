@@ -76,7 +76,14 @@ shell:SystemTray.IsVisible="False">
             </controls:PanoramaItem>
         <!--The Fourth item in paronoma which is weather information of city-->
         <controls:PanoramaItem Header="Weather">
-                <TextBlock Foreground="WhiteSmoke" Name="Weather" Text="The content to be loaded from weather page according to current location" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+        <StackPanel Height="505" HorizontalAlignment="Left" Margin="26,0,0,12" Name="stackPanel1" VerticalAlignment="Bottom" Width="359">
+                    <TextBox Height="71" Name="textBox2" Text="TextBox" Width="460" />
+                    <Button Content="Button" Height="71" Name="button1" Width="160" Click="button1_Click" />
+                    <ListBox Height="344" Name="listBox1" Width="322" />
+                </StackPanel>
+
+
+         
         </controls:PanoramaItem>
 <!--The fifth item in paronoma which is airport information of city-->
         <controls:PanoramaItem Header="Airport">
