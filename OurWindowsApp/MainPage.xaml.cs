@@ -320,6 +320,83 @@ namespace OurWindowsApp
                 return;
             }
         }
+        void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
+        {
+            Stream stream = e.Result;
+            XDocument xDoc = XDocument.Load(stream);
+            //pivWeather.SelectedIndex = 1;
+            GetCurrentWeather(xDoc);
+            GetForeCast(xDoc);
+        }
+
+        private void GetCurrentWeather(XDocument xDoc)
+        {
+            try
+            {
+                List<WeatherReport> lstWeatherReport = new List<WeatherReport>();
+
+                string city = xDoc.Descendants("forecast_information").First().Element("city").Attribute("data").Value;
+                string url = "http://www.google.com" + xDoc.Descendants("current_conditions").First().Element("icon").Attribute("data").Value;
+
+                lstWeatherReport = (from item in xDoc.Descendants("current_conditions")
+                                    select new WeatherReport()
+                                    {
+                                        DayOfWeek = "Today",
+                                        City = city,
+                                        //WeatherImage = img,
+                                        Condition = item.Element("condition").Attribute("data").Value,
+                                        //TempF = item.Element("temp_f").Attribute("data").Value,
+                                        TempC = item.Element("temp_c").Attribute("data").Value + " C",
+                                        Humidity = item.Element("humidity").Attribute("data").Value,
+                                        //ImageURL = item.Element("icon").Attribute("data").Value,
+                                        Wind = item.Element("wind_condition").Attribute("data").Value
+                                    }).ToList();
+
+               // lstWeather.ItemsSource = lstWeatherReport;
+                listBox1.ItemsSource = lstWeatherReport;
+            }
+            catch
+            {
+                //lstWeather.ItemsSource = null;
+                listBox1.ItemsSource = null;
+            }
+        }
+        private void GetForeCast(XDocument xDoc)
+        {
+            try
+            {
+                List<WeatherReport> lstWeatherReport = new List<WeatherReport>();
+                string city = xDoc.Descendants("forecast_information").First().Element("city").Attribute("data").Value;
+
+                lstWeatherReport = (from item in xDoc.Descendants("forecast_conditions")
+                                    select new WeatherReport()
+                                    {
+                                        DayOfWeek = item.Element("day_of_week").Attribute("data").Value,
+                                        City = city,
+                                        //WeatherImage = img,
+                                        Condition = item.Element("condition").Attribute("data").Value,
+                                        TempF = item.Element("low").Attribute("data").Value + " F",
+                                        TempC = item.Element("high").Attribute("data").Value + " F"
+                                    }).ToList();
+                
+                
+                listBox1.ItemsSource = lstWeatherReport;
+            }
+            catch
+            {
+                listBox1.ItemsSource = null;
+            }
+        }
+         private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            if (textBox2.Text.Trim() == string.Empty)
+                return;
+            WebClient client = new WebClient();
+            client.OpenReadCompleted += new OpenReadCompletedEventHandler(client_OpenReadCompleted);
+            client.OpenReadAsync(new Uri("http://www.google.com/ig/api?weather=" + textBox2.Text));
+        
+        }
+       
        
         
     }
