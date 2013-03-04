@@ -48,7 +48,7 @@ shell:SystemTray.IsVisible="False">
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/bus.png" />
+                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/Images/bus.png" />
                             <Button Foreground="WhiteSmoke" Content="Bus Station" Visibility="Visible" Width="276" Height="89" Click="Button_Click_5"></Button>
 
                         </StackPanel>
@@ -85,23 +85,65 @@ shell:SystemTray.IsVisible="False">
         </controls:PanoramaItem>
 <!--The fifth item in paronoma which is airport information of city-->
         <controls:PanoramaItem Header="Airport">
-                <TextBlock Foreground="WhiteSmoke" Name="Airport" Padding="30" Text="The content to be loaded from maps to gets names of airport and there distances from current location" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
-        </controls:PanoramaItem>
+                <ListBox Name="AirportList" Margin="0,0,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button MinHeight="120" Width="400">
+                                <Button.Content>
+                                    <StackPanel Orientation="Vertical" Width="350"  HorizontalAlignment="Left">
+                                        <TextBlock Name="airport1" TextWrapping="Wrap" FontSize="24" Text="{Binding featureName}"></TextBlock>
+                                        <TextBlock Name="airport2" TextWrapping="Wrap" FontSize="20" Text="{Binding featureDistance}"></TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:PanoramaItem>
 <!--The Sixth item in paronoma which is weather information of city-->
             <controls:PanoramaItem Header="Railways">
-                <TextBlock Foreground="WhiteSmoke" Name="Railways" Text="The content to be loaded from maps page to get names of railway stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+<!--                <TextBlock Foreground="WhiteSmoke" Name="Railways" Text="The content to be loaded from maps page to get names of railway stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>-->
+                <ListBox Name="RailwaysList" Margin="0,0,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button MinHeight="120" Width="400">
+                                <Button.Content>
+                                    <StackPanel Orientation="Vertical" Width="350"  HorizontalAlignment="Left">
+                                        <TextBlock Name="railway1" TextWrapping="Wrap" FontSize="24" Text="{Binding featureName}"></TextBlock>
+                                        <TextBlock Name="railway2" TextWrapping="Wrap" FontSize="20" Text="{Binding featureDistance}"></TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PanoramaItem>
   <!--The seventh item bus stations-->    
         <controls:PanoramaItem Header="Bus Station">
-                <TextBlock Foreground="WhiteSmoke" Name="Bus" Text="The content to be loaded from maps page to get names of bus stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+           <!--       <TextBlock Foreground="WhiteSmoke" Name="Bus" Text="The content to be loaded from maps page to get names of bus stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+              -->
+                <ListBox Name="BusList" Margin="0,0,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button MinHeight="120" Width="400">
+                                <Button.Content>
+                                    <StackPanel Orientation="Vertical" Width="350"  HorizontalAlignment="Left">
+                                        <TextBlock Name="bus1" TextWrapping="Wrap" FontSize="24" Text="{Binding featureName}"></TextBlock>
+                                        <TextBlock Name="bus2" TextWrapping="Wrap" FontSize="20" Text="{Binding featureDistance}"></TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PanoramaItem>
             <!--The eighth item it is ABOUTUS-->
         <controls:PanoramaItem Header="About Us">
-            <TextBlock Foreground="WhiteSmoke" Name="About" Text="This application(Version 1.0) is designed to act as a buddy when you move to a new city.It provides you with all the details required when you move to a new city.
-                       
- 
- The developers of the application are:-" Margin="0,0,0,0" Padding="40" TextWrapping="Wrap"></TextBlock>
-        </controls:PanoramaItem>
+                <StackPanel>
+                    <TextBlock Foreground="WhiteSmoke" Name="About" Text="This application(Version 1.0) is designed to act as a buddy when you move to a new city.It provides you with all the details required when you move to a new city." Margin="0,0,0,0" Padding="40" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="The developers of the application are:- Nilesh Suthar,Tarang Patel,Shalin Shah" Padding="40" TextWrapping="Wrap"></TextBlock>
+                </StackPanel>
+            </controls:PanoramaItem>
         </controls:Panorama>
        </Grid>
  

@@ -2,5 +2,8 @@
   <Deployment.Parts>
     <AssemblyPart x:Name="OurWindowsApp" Source="OurWindowsApp.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Toolkit.Testing" Source="Microsoft.Phone.Toolkit.Testing.dll" />
+    <AssemblyPart x:Name="Microsoft.VisualStudio.QualityTools.UnitTesting.Phone" Source="Microsoft.VisualStudio.QualityTools.UnitTesting.Phone.dll" />
   </Deployment.Parts>
 </Deployment>

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
 using Microsoft.Phone.Controls;
+using System.Collections.Generic;
 
 namespace OurWindowsApp
 {
@@ -20,12 +21,9 @@ namespace OurWindowsApp
 
         //string accuracyText = "";
         private string[] features = { "airport", "train_station", "bus_station", "gas_station", "hospital" };
-
-        //    private string sexy1;
-        //    private string sexy;
         private string clat = "23.194176";
-
         private string clng = "72.628384";//23.194176,72.628384
+        public List<Class2> airPlaces,busPlaces,railPlaces;
 
         // Constructor
         public MainPage()
@@ -62,6 +60,9 @@ namespace OurWindowsApp
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
             //Search button is clicked
+            airPlaces = new List<Class2>();
+            railPlaces = new List<Class2>();
+            busPlaces = new List<Class2>();
             if (!(textBox1.Text == "Search"))
             {
                 post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + textBox1.Text));
@@ -179,25 +180,43 @@ namespace OurWindowsApp
                 XElement[] geo_lng = xmlquery.Descendants("result").Descendants("geometry").Descendants("location").Descendants("lng").ToArray();
 
                 string s = xmlquery.Descendants("result").Descendants("type").ToArray().First().Value;
-
+                double[] distance = new double[100];
+                string[] names = new string[100];
                 string i = "";
                 for (int il = 0; il < a.Length; il++)
                 {
                     double a1 = (Math.Sin(Radians(double.Parse(clat) - double.Parse(geo_lat[il].Value)) / 2) * Math.Sin(Radians(double.Parse(clat) - double.Parse(geo_lat[il].Value)) / 2)) + Math.Cos(Radians(double.Parse(geo_lat[il].Value))) * Math.Cos(Radians(double.Parse(clat))) * (Math.Sin(Radians(double.Parse(clng) - double.Parse(geo_lng[il].Value)) / 2) * Math.Sin(Radians(double.Parse(clng) - double.Parse(geo_lng[il].Value)) / 2));
                     double angle = 2 * Math.Atan2(Math.Sqrt(a1), Math.Sqrt(1 - a1));
                     double Distance = angle * 6378.16;
+                    distance[il] =  Math.Round(Distance, 2);
+                    names[il] = a[il].Value;
                     i += Math.Round(Distance, 2) + " KM away,";
                     i += a[il].Value + System.Environment.NewLine;
+
+                    if (s == "airport")
+                    {
+                        if(distance[il] != null && names[il] != null)
+                            airPlaces.Add(new Class2(names[il],distance[il]+"Kms"));
+                    }
+                    else if (s == "train_station")
+                    {
+                       if (distance[il] != null && names[il] != null)
+                            railPlaces.Add(new Class2(names[il], distance[il] + "Kms"));
+                    }
+                    else if (s == "bus_station")
+                    {
+                        if (distance[il] != null && names[il] != null)
+                            busPlaces.Add(new Class2(names[il], distance[il] + "Kms"));
+                    }
                 }
 
-                //string s =
-
-                if (s == "airport")
-                    this.Dispatcher.BeginInvoke(new Action(() => Airport.Text = i));
-                else if (s == "train_station")
-                    this.Dispatcher.BeginInvoke(new Action(() => Railways.Text = i));
+                if(s == "airport")
+                    this.Dispatcher.BeginInvoke(new Action(() => AirportList.ItemsSource = airPlaces)); 
+                else if(s == "train_station")
+                    this.Dispatcher.BeginInvoke(new Action(() => RailwaysList.ItemsSource = railPlaces));
                 else if (s == "bus_station")
-                    this.Dispatcher.BeginInvoke(new Action(() => Bus.Text = i));
+                    this.Dispatcher.BeginInvoke(new Action(() => BusList.ItemsSource = busPlaces));
+                
                 if (watcher != null)
                 {
                     watcher.Stop();
