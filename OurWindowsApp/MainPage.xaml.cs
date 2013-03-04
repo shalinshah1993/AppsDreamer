@@ -24,7 +24,7 @@ namespace OurWindowsApp
 
         private string clat = "23.194176";
         private string clng = "72.628384";//23.194176,72.628384
-        private string slat, slng;//for search
+        private string slat, slng, currentcity;//for search
         public List<Class2> airPlaces, busPlaces, railPlaces;
 
         // Constructor
@@ -62,9 +62,6 @@ namespace OurWindowsApp
         private void button_Click_1(object sender, RoutedEventArgs e)
         {
             //Search button is clicked
-            airPlaces = new List<Class2>();
-            railPlaces = new List<Class2>();
-            busPlaces = new List<Class2>();
             if (!(textBox1.Text == "Search"))
             {
                 search = textBox1.Text;
@@ -85,15 +82,18 @@ namespace OurWindowsApp
             }
         }
 
-        private void beginSearch()
+        private void beginSearch(string lat, string lng, string s)
         {
-            post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + search));
-            wikipost(new Uri(wikiuri + search));
-            post1(new Uri(rootUri1 + "&location=" + slat + "," + slng + "&radius=75000&sensor=false&types=" + features[0]));
-            post1(new Uri(rootUri1 + "&location=" + slat + "," + slng + "&radius=75000&sensor=false&types=" + features[1]));
-            post1(new Uri(rootUri1 + "&location=" + slat + "," + slng + "&radius=75000&sensor=false&types=" + features[2]));
-            post1(new Uri(rootUri1 + "&location=" + slat + "," + slng + "&radius=75000&sensor=false&types=" + features[3]));
-            post1(new Uri(rootUri1 + "&location=" + slat + "," + slng + "&radius=75000&sensor=false&types=" + features[4]));
+            airPlaces = new List<Class2>();
+            railPlaces = new List<Class2>();
+            busPlaces = new List<Class2>();
+            post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + s));
+            wikipost(new Uri(wikiuri + s));
+            post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[0]));
+            post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[1]));
+            post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[2]));
+            post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[3]));
+            post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[4]));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -125,13 +125,59 @@ namespace OurWindowsApp
             search = textBox1.Text;
         }
 
+        private void whereami_Click(object sender, RoutedEventArgs e)
+        {
+            getCityPost(new Uri("http://maps.googleapis.com/maps/api/geocode/xml?sensor=true&latlng=" + clat + "," + clng));
+        }
+
+        private void getCityPost(Uri u)
+        {
+            HttpWebRequest queryRequest = (HttpWebRequest)WebRequest.Create(u);
+            queryRequest.Method = "POST";
+            queryUpdateState qState = new queryUpdateState();
+            qState.AsyncRequest = queryRequest;
+            queryRequest.BeginGetResponse(new AsyncCallback(getCityHandleResponse), qState);
+        }
+
+        private void getCityHandleResponse(IAsyncResult result)
+        {
+            queryUpdateState qState = (queryUpdateState)result.AsyncState;
+            HttpWebRequest qRequest = (HttpWebRequest)qState.AsyncRequest;
+
+            qState.AsyncResponse = (HttpWebResponse)qRequest.EndGetResponse(result);
+
+            Stream streamResult;
+            try
+            {
+                streamResult = qState.AsyncResponse.GetResponseStream();
+
+                // load the XML
+                XDocument xmlquery = XDocument.Load(streamResult);
+                XElement[] addresses = xmlquery.Descendants("result").Descendants("address_component").ToArray();
+                string temp;
+                foreach (var a in addresses)
+                {
+                    if (a.Descendants("type").First().Value == "administrative_area_level_2")
+                    {
+                        currentcity = a.Descendants("long_name").First().Value;
+                        break;
+                    }
+                }
+                beginSearch(clat, clng, currentcity);
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+        }
+
         private void post(Uri u)
         {
             HttpWebRequest queryRequest = (HttpWebRequest)WebRequest.Create(u);
             queryRequest.Method = "POST";
             queryUpdateState qState = new queryUpdateState();
             qState.AsyncRequest = queryRequest;
-            queryRequest.BeginGetResponse(new AsyncCallback(HandleResponse), qState);
+            queryRequest.BeginGetResponse(new AsyncCallback(getCityHandleResponse), qState);
         }
 
         private void HandleResponse(IAsyncResult result)
@@ -210,17 +256,17 @@ namespace OurWindowsApp
 
                     if (s == "airport")
                     {
-                        if (distance[il] != null && names[il] != null)
+                        if (distance[il] != 0.0 && names[il] != null)
                             airPlaces.Add(new Class2(names[il], distance[il] + "Kms"));
                     }
                     else if (s == "train_station")
                     {
-                        if (distance[il] != null && names[il] != null)
+                        if (distance[il] != 0.0 && names[il] != null)
                             railPlaces.Add(new Class2(names[il], distance[il] + "Kms"));
                     }
                     else if (s == "bus_station")
                     {
-                        if (distance[il] != null && names[il] != null)
+                        if (distance[il] != 0.0 && names[il] != null)
                             busPlaces.Add(new Class2(names[il], distance[il] + "Kms"));
                     }
                 }
@@ -268,7 +314,7 @@ namespace OurWindowsApp
                 XDocument xmlquery = XDocument.Load(streamResult);
                 slat = xmlquery.Descendants("result").Descendants("geometry").Descendants("location").Descendants("lat").First().Value;
                 slng = xmlquery.Descendants("result").Descendants("geometry").Descendants("location").Descendants("lng").First().Value;
-                beginSearch();
+                beginSearch(slat, slng, search);
             }
             catch (FormatException)
             {
@@ -421,10 +467,6 @@ namespace OurWindowsApp
             // Update the TextBlocks to show the current location
             clat = e.Position.Location.Latitude.ToString("0.000");
             clng = e.Position.Location.Longitude.ToString("0.000");
-        }
-
-        private void whereami_Click(object sender, RoutedEventArgs e)
-        {
         }
 
         /*     void client_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
