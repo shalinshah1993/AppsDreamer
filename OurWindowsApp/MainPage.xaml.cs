@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
 using Microsoft.Phone.Controls;
+using Wiki;
 
 namespace OurWindowsApp
 {
@@ -348,7 +349,7 @@ namespace OurWindowsApp
 
                 //Wikipedia Data Need to be parsed
                 string a = xmlquery.Descendants("query").Descendants("pages").Descendants("page").Descendants("revisions").Descendants("rev").First().Value;
-
+                string h = new CreoleParser().ToHTML(a);
                 //string x = xmlquery.ToString();
                 /* if (x.IndexOf("<Description xml:space=\"preserve\">") != -1)
                  {
