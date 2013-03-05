@@ -20,7 +20,7 @@ shell:SystemTray.IsVisible="False">
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
         <!--Panorama control-->
-        <controls:Panorama Title="My Application" Name="panorama">
+        <controls:Panorama Title="Dude!Where to Go?" Name="panorama">
             <controls:Panorama.Background>
                 <ImageBrush ImageSource="image1.png" />
             </controls:Panorama.Background>
@@ -32,8 +32,8 @@ shell:SystemTray.IsVisible="False">
                 <StackPanel Orientation="Vertical">
                     <TextBox Name="textBox1" Foreground="DarkSlateGray" Height="80" HorizontalAlignment="Left" Margin="0,8,0,0" Text="Search" VerticalAlignment="Top" Width="450" IsReadOnly="False" IsHitTestVisible="True" GotFocus="textBox1_GotFocus" LostFocus="textBox1_LostFocus" TextChanged="gen_query" />
                     <StackPanel Orientation="Horizontal">
-                        <Button Foreground="WhiteSmoke" Height="70" Margin="0,0,0,0" Name="button"  Content="Search Now" Click="button_Click_1" />
-                        <Button Content="Where am i?" Height="70" Name="button1" Click="whereami_Click" />
+                        <Button Foreground="WhiteSmoke" Height="70" Margin="0,0,0,0" Name="button"  Content="Click to Search" Click="button_Click_1" />
+                        <Button Content="My Location" Height="70" Name="button1" Click="whereami_Click" />
                     </StackPanel>
                     <ProgressBar IsIndeterminate="True" Style="{StaticResource PerformanceProgressBar}" Foreground="White" Visibility="Collapsed" Name="ProgressBar" />
                     <TextBlock Height="230" Name="textBlock1" Text="" TextWrapping="Wrap" />
@@ -52,6 +52,16 @@ shell:SystemTray.IsVisible="False">
                             <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/Images/bus.png" />
                             <Button Foreground="WhiteSmoke" Content="Bus Station" Visibility="Visible" Width="276" Height="89" Click="Button_Click_5"></Button>
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/gas.png" />
+                            <Button Foreground="WhiteSmoke" Content="Gas Station" Visibility="Visible" Width="276" Height="89" Click="Button_Click_6"></Button>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                            <Image Height="100" Width="100" Margin="0,0,0,0" Source="/OurWindowsApp;component/hospital.png" />
+                            <Button Foreground="WhiteSmoke" Content="Hospitals" Visibility="Visible" Width="276" Height="89" Click="Button_Click_7"></Button>
+                        </StackPanel>
+
 
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
 
@@ -77,7 +87,7 @@ shell:SystemTray.IsVisible="False">
             </controls:PanoramaItem>
             <!--The third item in paronoma which is wikipedia information of city-->
             <controls:PanoramaItem Header="Wiki Info">
-                <phone:WebBrowser HorizontalAlignment="Left" Margin="0,0,0,0" Name="webBrowser1" VerticalAlignment="Top" MinHeight="500" MinWidth="400"/>
+                <phone:WebBrowser HorizontalAlignment="Left" Margin="0,0,0,0" Name="webBrowser1" VerticalAlignment="Top" MinHeight="500" MinWidth="400" />
             </controls:PanoramaItem>
             <!--The Fourth item in paronoma which is weather information of city-->
             <controls:PanoramaItem Header="Weather">
@@ -137,6 +147,42 @@ shell:SystemTray.IsVisible="False">
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
+            <controls:PanoramaItem Header="Hospitals">
+                <!--       <TextBlock Foreground="WhiteSmoke" Name="Bus" Text="The content to be loaded from maps page to get names of bus stations and there distances from here" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+              -->
+                <ListBox Name="HospitalList" Margin="0,0,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button MinHeight="120" Width="400">
+                                <Button.Content>
+                                    <StackPanel Orientation="Vertical" Width="350"  HorizontalAlignment="Left">
+                                        <TextBlock Name="hospital1" TextWrapping="Wrap" FontSize="24" Text="{Binding featureName}"></TextBlock>
+                                        <TextBlock Name="hospital2" TextWrapping="Wrap" FontSize="20" Text="{Binding featureDistance}"></TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:PanoramaItem>
+
+            <controls:PanoramaItem Header="Gas Stations">
+                <ListBox Name="GasList" Margin="0,0,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button MinHeight="120" Width="400">
+                                <Button.Content>
+                                    <StackPanel Orientation="Vertical" Width="350"  HorizontalAlignment="Left">
+                                        <TextBlock Name="gas1" TextWrapping="Wrap" FontSize="24" Text="{Binding featureName}"></TextBlock>
+                                        <TextBlock Name="gas2" TextWrapping="Wrap" FontSize="20" Text="{Binding featureDistance}"></TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:PanoramaItem>
+
             <!--The eighth item it is ABOUTUS-->
             <controls:PanoramaItem Header="About Us">
                 <StackPanel>
@@ -145,6 +191,5 @@ shell:SystemTray.IsVisible="False">
                 </StackPanel>
             </controls:PanoramaItem>
         </controls:Panorama>
-        
     </Grid>
 </phone:PhoneApplicationPage>

@@ -5,8 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,7 +17,7 @@ using System.Windows.Media.Animation;
 //
 // It's a tough problem to solve property, but this primitive, unsupported
 // control does offer a solution based on magic numbers that still allows a
-// designer to make alterations to their animation values to present their 
+// designer to make alterations to their animation values to present their
 // vision for custom templates.
 //
 // This is instrumental in offering a Windows Phone ProgressBar implementation
@@ -50,7 +48,7 @@ namespace Microsoft.Phone.Controls.Unsupported
     public class RelativeAnimatingContentControl : ContentControl
     {
         /// <summary>
-        /// A simple Epsilon-style value used for trying to determine the magic 
+        /// A simple Epsilon-style value used for trying to determine the magic
         /// state, if any, of a double.
         /// </summary>
         private const double SimpleDoubleComparisonEpsilon = 0.000009;
@@ -108,7 +106,7 @@ namespace Microsoft.Phone.Controls.Unsupported
             if (_knownHeight > 0 && _knownWidth > 0)
             {
                 // Initially, before any special animations have been found,
-                // the visual state groups of the control must be explored. 
+                // the visual state groups of the control must be explored.
                 // By definition they must be at the implementation root of the
                 // control, and this is designed to not walk into any other
                 // depth.
@@ -169,7 +167,7 @@ namespace Microsoft.Phone.Controls.Unsupported
         }
 
         /// <summary>
-        /// Processes a double animation with keyframes, looking for known 
+        /// Processes a double animation with keyframes, looking for known
         /// special values to store with an adapter.
         /// </summary>
         /// <param name="da">The double animation using key frames instance.</param>
@@ -214,6 +212,7 @@ namespace Microsoft.Phone.Controls.Unsupported
         }
 
         #region Private animation updating system
+
         /// <summary>
         /// A selection of dimensions of interest for updating an animation.
         /// </summary>
@@ -231,7 +230,7 @@ namespace Microsoft.Phone.Controls.Unsupported
         }
 
         /// <summary>
-        /// A simple class designed to store information about a specific 
+        /// A simple class designed to store information about a specific
         /// animation instance and its properties. Able to update the values at
         /// runtime.
         /// </summary>
@@ -428,7 +427,7 @@ namespace Microsoft.Phone.Controls.Unsupported
             }
 
             /// <summary>
-            /// Initializes a new instance of the DoubleAnimationFromAdapter 
+            /// Initializes a new instance of the DoubleAnimationFromAdapter
             /// type.
             /// </summary>
             /// <param name="dimension">The dimension of interest.</param>
@@ -473,7 +472,8 @@ namespace Microsoft.Phone.Controls.Unsupported
             {
             }
         }
-        #endregion
+
+        #endregion Private animation updating system
     }
 
     /*
@@ -482,6 +482,7 @@ namespace Microsoft.Phone.Controls.Unsupported
     xmlns:unsupported="clr-namespace:Microsoft.Phone.Controls.Unsupported"
 
     <!--
+
 // Performance Progress Bar
 // - - -
 // To use this progress bar at runtime, make sure to set the Style
@@ -489,7 +490,7 @@ namespace Microsoft.Phone.Controls.Unsupported
 // in the Windows Phone runtime, you will not be able to visually tell
 // the difference: except this style will not use the UI thread at
 // runtime when IsIndeterminate=true.
-// 
+//
 // <ProgressBar Style="{StaticResource PerformanceProgressBar}"
 //              IsIndeterminate="true"/>
 //

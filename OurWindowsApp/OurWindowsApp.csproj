@@ -109,6 +109,8 @@
     <Compile Include="RelativeAnimatingContentControl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="hospital.png" />
+    <Resource Include="gas.png" />
     <Resource Include="bus.png" />
     <Resource Include="Images\bus.png" />
     <Resource Include="speak.png" />
