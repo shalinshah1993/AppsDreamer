@@ -33,3 +33,22 @@ C:\Users\SHALIN\Desktop\Win phone7\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft
 C:\Users\SHALIN\Desktop\Win phone7\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTesting.Phone.dll
 C:\Users\SHALIN\Desktop\Win phone7\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.Phone.Controls.xml
 C:\Users\SHALIN\Desktop\Win phone7\AppsDreamer\OurWindowsApp\obj\Debug\XapCacheFile.xml
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\ApplicationIcon.png
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\Background.png
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\OurWindowsApp.dll
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\OurWindowsApp.pdb
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\AppManifest.xaml
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\OurWindowsApp.xap
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.Phone.Controls.dll
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.Phone.Toolkit.Testing.dll
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTesting.Phone.dll
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\Bin\Debug\Microsoft.Phone.Controls.xml
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\OurWindowsApp.csprojResolveAssemblyReference.cache
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\App.g.cs
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\MainPage.g.cs
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\Page1.g.cs
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\OurWindowsApp.g.resources
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\OurWindowsApp.dll
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\OurWindowsApp.pdb
+C:\Users\Nilesh\Documents\Visual Studio 2010\Projects\AppsDreamer\OurWindowsApp\obj\Debug\XapCacheFile.xml

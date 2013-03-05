@@ -77,7 +77,7 @@ shell:SystemTray.IsVisible="False">
             </controls:PanoramaItem>
             <!--The third item in paronoma which is wikipedia information of city-->
             <controls:PanoramaItem Header="Wiki Info">
-                <TextBlock Foreground="WhiteSmoke" Name="Wiki" Text="The content to be loaded from wikipedia" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
+                <phone:WebBrowser HorizontalAlignment="Left" Margin="0,0,0,0" Name="webBrowser1" VerticalAlignment="Top" MinHeight="500" MinWidth="400"/>
             </controls:PanoramaItem>
             <!--The Fourth item in paronoma which is weather information of city-->
             <controls:PanoramaItem Header="Weather">
@@ -145,5 +145,6 @@ shell:SystemTray.IsVisible="False">
                 </StackPanel>
             </controls:PanoramaItem>
         </controls:Panorama>
+        
     </Grid>
 </phone:PhoneApplicationPage>

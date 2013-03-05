@@ -19,7 +19,7 @@ namespace OurWindowsApp
         private static string wikiuri = "http://en.wikipedia.org/w/api.php?format=xml&action=query&prop=revisions&rvprop=content&titles=";
         private string search = "";
         private GeoCoordinateWatcher watcher;
-
+        private int sr=1;
         //string accuracyText = "";
         private string[] features = { "airport", "train_station", "bus_station", "gas_station", "hospital" };
 
@@ -65,6 +65,7 @@ namespace OurWindowsApp
             //Search button is clicked
             if (!(textBox1.Text == "Search"))
             {
+                sr = 0;
                 search = textBox1.Text;
                 postsetlocation(new Uri("http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address=" + textBox1.Text));
                 /*post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + textBox1.Text));
@@ -83,19 +84,21 @@ namespace OurWindowsApp
             }
         }
 
-        private void beginSearch(string lat, string lng, string s)
+        private void beginSearch(string lat, string lng, string stri)
         {
+            
             airPlaces = new List<Class2>();
             railPlaces = new List<Class2>();
             busPlaces = new List<Class2>();
-            post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + s));
-            wikipost(new Uri(wikiuri + s));
+            post(new Uri(rootUri + "?action=opensearch&format=xml&search=" + stri));
+            wikipost(new Uri(wikiuri + stri));
             post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[0]));
             post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[1]));
             post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[2]));
             post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[3]));
             post1(new Uri(rootUri1 + "&location=" + lat + "," + lng + "&radius=75000&sensor=false&types=" + features[4]));
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -129,6 +132,8 @@ namespace OurWindowsApp
         private void whereami_Click(object sender, RoutedEventArgs e)
         {
             getCityPost(new Uri("http://maps.googleapis.com/maps/api/geocode/xml?sensor=true&latlng=" + clat + "," + clng));
+            ProgressBar.Visibility = Visibility.Visible;
+            textBlock1.Text = "Getting Data...";
         }
 
         private void getCityPost(Uri u)
@@ -155,7 +160,7 @@ namespace OurWindowsApp
                 // load the XML
                 XDocument xmlquery = XDocument.Load(streamResult);
                 XElement[] addresses = xmlquery.Descendants("result").Descendants("address_component").ToArray();
-                string temp;
+                
                 foreach (var a in addresses)
                 {
                     if (a.Descendants("type").First().Value == "administrative_area_level_2")
@@ -178,7 +183,7 @@ namespace OurWindowsApp
             queryRequest.Method = "POST";
             queryUpdateState qState = new queryUpdateState();
             qState.AsyncRequest = queryRequest;
-            queryRequest.BeginGetResponse(new AsyncCallback(getCityHandleResponse), qState);
+            queryRequest.BeginGetResponse(new AsyncCallback(HandleResponse), qState);
         }
 
         private void HandleResponse(IAsyncResult result)
@@ -208,6 +213,7 @@ namespace OurWindowsApp
                     this.Dispatcher.BeginInvoke(new Action(() => MessageBox.Show("Oy")));
                 }
                 this.Dispatcher.BeginInvoke(new Action(() => this.ProgressBar.Visibility = Visibility.Collapsed));
+                sr = 1;
             }
             catch (FormatException)
             {
@@ -315,7 +321,8 @@ namespace OurWindowsApp
                 XDocument xmlquery = XDocument.Load(streamResult);
                 slat = xmlquery.Descendants("result").Descendants("geometry").Descendants("location").Descendants("lat").First().Value;
                 slng = xmlquery.Descendants("result").Descendants("geometry").Descendants("location").Descendants("lng").First().Value;
-                beginSearch(slat, slng, search);
+                if(sr==0)
+               beginSearch(slat, slng, search);
             }
             catch (FormatException)
             {
@@ -350,6 +357,9 @@ namespace OurWindowsApp
                 //Wikipedia Data Need to be parsed
                 string a = xmlquery.Descendants("query").Descendants("pages").Descendants("page").Descendants("revisions").Descendants("rev").First().Value;
                 string h = new CreoleParser().ToHTML(a);
+                //this.Dispatcher.BeginInvoke(new Action(() => webBrowser1.UpdateLayout()));
+                this.Dispatcher.BeginInvoke(new Action(() => webBrowser1.NavigateToString(h)));
+                this.Dispatcher.BeginInvoke(new Action(() => webBrowser1.UpdateLayout()));
                 //string x = xmlquery.ToString();
                 /* if (x.IndexOf("<Description xml:space=\"preserve\">") != -1)
                  {
